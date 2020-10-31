@@ -30,11 +30,11 @@ public class TaskManager {
     /**
      * открывается поток записи байтов в файл
      */
-    FileOutputStream outputStream = new FileOutputStream(file);
+    private FileOutputStream outputStream = new FileOutputStream(file);
     /**
      * для сериализации объектов в поток
      */
-    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+    private ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
     /**
      * список задач
      */
