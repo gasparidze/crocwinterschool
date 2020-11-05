@@ -1,4 +1,4 @@
-package annotationsTest;
+package ru.croc.art;
 
 import ru.croc.art.HashMapExtended;
 import ru.croc.art.exceptions.PutMapKeyFailException;
