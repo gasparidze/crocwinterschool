@@ -44,7 +44,7 @@ public class Parser {
             }
         }
         //1-й String - имя актера,2-й String - фильм,3-й String - роль
-        Map<String, Map<String, String>> stringMap = new HashMap<>();
+        Map<String, Map<String, String>> stringMap = new LinkedHashMap<>();
         Map<String, String> filmRole;
         //множество, в которое добавляются уже просмотренные актеры
         Set<String> actorRepeated = new HashSet<>();

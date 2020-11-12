@@ -30,11 +30,12 @@ public class ParserTest {
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.marshal(xmlSTest, new File(strActual));
+       //marshaller.marshal(xmlSTest,System.out);
         //преобразует содержимое файла в строку
         StringBuilder stringBuilderExpected = parser.toStr(strExpected);
         StringBuilder stringBuilderActual = parser.toStr(strActual);
         // проверка содержимого stringBilder
-        Assertions.assertTrue(stringBuilderExpected.toString().equals(stringBuilderActual.toString()));
+        Assertions.assertEquals(stringBuilderExpected.toString(), stringBuilderActual.toString());
 
     }
 }
