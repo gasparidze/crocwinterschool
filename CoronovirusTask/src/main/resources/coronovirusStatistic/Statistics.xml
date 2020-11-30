@@ -1,0 +1,31 @@
+<statistics>
+    <date date="2020-11-23">
+        <disease>10</disease>
+        <recovery>7</recovery>
+    </date>
+    <date date="2020-11-24">
+        <disease>9</disease>
+        <recovery>8</recovery>
+    </date>
+    <date date="2020-11-25">
+        <disease>8</disease>
+        <recovery>4</recovery>
+    </date>
+    <date date="2020-11-26">
+        <disease>12</disease>
+        <recovery>14</recovery>
+    </date>
+    <date date="2020-11-27">
+        <disease>13</disease>
+        <recovery>2</recovery>
+    </date>
+    <date date="2020-11-28">
+        <disease>15</disease>
+        <recovery>9</recovery>
+    </date>
+    <date date="2020-11-29">
+        <disease>10</disease>
+        <recovery>4</recovery>
+    </date>
+</statistics>
+
