@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.croc.art.Repository.Repository;
+import ru.croc.art.repository.Repository;
 import ru.croc.art.conversion.Conversion;
 import ru.croc.art.db.DataSourceProvider;
 import ru.croc.art.model.Row;
@@ -44,11 +44,13 @@ public class TaskTest {
      * статистика выписанных пациентов
      */
     private static StatisticDischargedPatients statisticDischargedPatients;
-//    private static List<Row> rowsExpected;
     /**
      * парсер
      */
     private static Parser parser;
+    /**
+     * дополнительный список для хранения распарсенных данных
+     */
     private static List<Row> parsList;
 
     /**

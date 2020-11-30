@@ -1,4 +1,4 @@
-package ru.croc.art.Repository;
+package ru.croc.art.repository;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import ru.croc.art.model.Row;
