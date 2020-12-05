@@ -1,4 +1,4 @@
-package ru.croc.art.xmlClasses;
+package ru.croc.art.model.xmlClasses.DischargedPatients;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,22 +9,24 @@ import java.util.Objects;
  * класс выписанных больных для конвертации из xml
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DischargedPatients {
+public class DischargedPatientsPerDay {
+
     /**
      * дата
      */
     @XmlAttribute(name = "date")
     private String date;
+
     /**
      * кол-во выписанных
      */
     @XmlAttribute(name = "quantity")
     private int quantity;
 
-    public DischargedPatients() {
+    public DischargedPatientsPerDay() {
     }
 
-    public DischargedPatients(String date, int quantity) {
+    public DischargedPatientsPerDay(String date, int quantity) {
         this.date = date;
         this.quantity = quantity;
     }
@@ -41,7 +43,7 @@ public class DischargedPatients {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DischargedPatients that = (DischargedPatients) o;
+        DischargedPatientsPerDay that = (DischargedPatientsPerDay) o;
         return quantity == that.quantity &&
                 Objects.equals(date, that.date);
     }

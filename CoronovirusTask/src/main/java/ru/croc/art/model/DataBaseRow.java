@@ -3,7 +3,13 @@ package ru.croc.art.model;
 import java.sql.Date;
 import java.util.Objects;
 
-public class Row {
+/**
+ * класс, повторяюший структуру БД
+ */
+public class DataBaseRow {
+
+    private static final String TABLE_NAME = "statistics";
+
     /**
      * идентификатор
      */
@@ -25,12 +31,16 @@ public class Row {
      */
     private Integer dischargedQuantity;
 
-    public Row(Integer id, Date date, Integer diseaseQuantity, Integer recoveryQuantity, Integer dischargedQuantity) {
+    public DataBaseRow(Integer id, Date date, Integer diseaseQuantity, Integer recoveryQuantity, Integer dischargedQuantity) {
         this.id = id;
         this.date = date;
         this.diseaseQuantity = diseaseQuantity;
         this.recoveryQuantity = recoveryQuantity;
         this.dischargedQuantity = dischargedQuantity;
+    }
+
+    public static String getTableName() {
+        return TABLE_NAME;
     }
 
     public Integer getId() {
@@ -57,12 +67,12 @@ public class Row {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Row row = (Row) o;
-        return Objects.equals(id, row.id) &&
-                Objects.equals(date, row.date) &&
-                Objects.equals(diseaseQuantity, row.diseaseQuantity) &&
-                Objects.equals(recoveryQuantity, row.recoveryQuantity) &&
-                Objects.equals(dischargedQuantity, row.dischargedQuantity);
+        DataBaseRow dataBaseRow = (DataBaseRow) o;
+        return Objects.equals(id, dataBaseRow.id) &&
+                Objects.equals(date, dataBaseRow.date) &&
+                Objects.equals(diseaseQuantity, dataBaseRow.diseaseQuantity) &&
+                Objects.equals(recoveryQuantity, dataBaseRow.recoveryQuantity) &&
+                Objects.equals(dischargedQuantity, dataBaseRow.dischargedQuantity);
     }
 
     @Override

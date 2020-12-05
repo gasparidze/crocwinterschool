@@ -1,4 +1,6 @@
-package ru.croc.art.xmlClasses;
+package ru.croc.art.model.xmlClasses.dto;
+
+import ru.croc.art.model.xmlClasses.DischargedPatients.StatisticsPerDay;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,21 +12,21 @@ import java.util.Objects;
  * класс статистики заболеваемости для конвертации из xml
  */
 @XmlRootElement(name = "statistics")
-public class Statistics {
+public class StatisticsDTO implements DTOCollection{
     /**
      * список статистики заболеваемости, сгруппированной по датам
      */
     @XmlElement(name = "date")
-    private List<Dates> dates = new ArrayList<Dates>();
+    private List<StatisticsPerDay> dates = new ArrayList<StatisticsPerDay>();
 
-    public Statistics() {
+    public StatisticsDTO() {
     }
 
-    public Statistics(List<Dates> dates) {
+    public StatisticsDTO(List<StatisticsPerDay> dates) {
         this.dates = dates;
     }
 
-    public List<Dates> getStatistics() {
+    public List<StatisticsPerDay> getStatistics() {
         return dates;
     }
 
@@ -32,7 +34,7 @@ public class Statistics {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Statistics that = (Statistics) o;
+        StatisticsDTO that = (StatisticsDTO) o;
         return Objects.equals(dates, that.dates);
     }
 

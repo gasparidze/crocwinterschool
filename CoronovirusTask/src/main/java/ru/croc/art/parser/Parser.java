@@ -1,24 +1,27 @@
 package ru.croc.art.parser;
 
 import ru.croc.art.model.*;
-import ru.croc.art.xmlClasses.Dates;
-import ru.croc.art.xmlClasses.DischargedPatients;
-import ru.croc.art.xmlClasses.Statistics;
-import ru.croc.art.xmlClasses.StatisticDischargedPatients;
+import ru.croc.art.model.xmlClasses.DischargedPatients.StatisticsPerDay;
+import ru.croc.art.model.xmlClasses.DischargedPatients.DischargedPatientsPerDay;
+import ru.croc.art.model.xmlClasses.dto.StatisticsDTO;
+import ru.croc.art.model.xmlClasses.dto.DischargedPatientsDTO;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс слуджит для распарсивания данных
+ */
 public class Parser {
     /**
      * статистика
      */
-    private Statistics statistics;
+    private StatisticsDTO statisticsDTO;
     /**
      * выписанные пациенты
      */
-    private StatisticDischargedPatients statisticDischargedPatients;
+    private DischargedPatientsDTO dischargedPatientsDTO;
     /**
      * идентификатор для локального использования
      */
@@ -26,11 +29,11 @@ public class Parser {
     /**
      * записи в таблице
      */
-    private List<Row> rows;
+    private List<DataBaseRow> dataBaseRows;
 
-    public Parser(Statistics statistics, StatisticDischargedPatients statisticDischargedPatients) {
-        this.statistics = statistics;
-        this.statisticDischargedPatients = statisticDischargedPatients;
+    public Parser(StatisticsDTO statisticsDTO, DischargedPatientsDTO dischargedPatientsDTO) {
+        this.statisticsDTO = statisticsDTO;
+        this.dischargedPatientsDTO = dischargedPatientsDTO;
     }
 
     /**
@@ -38,27 +41,27 @@ public class Parser {
      *
      * @return коллекция распарсенных данных
      */
-    public List<Row> pars() {
+    public List<DataBaseRow> pars() {
         //список записей
-        rows = new ArrayList<>();
+        dataBaseRows = new ArrayList<>();
         //проходимся по статистике, в которой хранятся дата, кол-во заболевших и выздоровевших
-        for (Dates dates : statistics.getStatistics()) {
+        for (StatisticsPerDay statisticsPerDay : statisticsDTO.getStatistics()) {
             //проходимся по статистике выписанных пациентов
-            for (DischargedPatients dischargedPatients : statisticDischargedPatients.getDischargedPatientsList()) {
+            for (DischargedPatientsPerDay dischargedPatientsPerDay : dischargedPatientsDTO.getDischargedPatientsPerDayList()) {
                 //т.к. нам нужно соединить данные из этих двух классов, то проверяем их даты,
                 // т.к. дата является связующем звеном
-                if (dates.getDate().equals(dischargedPatients.getDate())) {
+                if (statisticsPerDay.getDate().equals(dischargedPatientsPerDay.getDate())) {
                     //дата в классах представлена как поле String
                     //преобразуем ее с помощью метода valueOf в формат Date(SQL)
-                    Date date = Date.valueOf(dates.getDate());
+                    Date date = Date.valueOf(statisticsPerDay.getDate());
                     //создаем запись и помещаем всю нужную информацию
-                    Row row = new Row(++id, date, dates.getQuantity(), dates.getRecovery(),
-                            dischargedPatients.getQuantity());
+                    DataBaseRow dataBaseRow = new DataBaseRow(++id, date, statisticsPerDay.getQuantity(), statisticsPerDay.getRecovery(),
+                            dischargedPatientsPerDay.getQuantity());
                     //добавляем запись в исходную коллекцию
-                    rows.add(row);
+                    dataBaseRows.add(dataBaseRow);
                 }
             }
         }
-        return rows;
+        return dataBaseRows;
     }
 }

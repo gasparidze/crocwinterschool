@@ -1,21 +1,23 @@
 package ru.croc.art.repository;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
-import ru.croc.art.model.Row;
+import ru.croc.art.model.DataBaseRow;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Репозиторий для доступа к таблице с данными о статистике заболеваний (Statistics)
+ * Репозиторий для доступа к таблице с данными о статистике заболеваний (StatisticsDTO)
  */
-public class Repository {
-    private static final String TABLE_NAME = "statistics";
+public class DataBaseRowRepository {
+
+    private final String TABLE_NAME;
 
     private EmbeddedDataSource dataSource;
 
-    public Repository(EmbeddedDataSource dataSource) {
+    public DataBaseRowRepository(EmbeddedDataSource dataSource) {
+        TABLE_NAME = DataBaseRow.getTableName();
         this.dataSource = dataSource;
         initTable();
     }
@@ -45,7 +47,8 @@ public class Repository {
                                 + "diseaseQuantity INTEGER, "
                                 + "recoveryQuantity INTEGER, "
                                 + "dischargedQuantity INTEGER "
-                                + ")");
+                                + ")"
+                );
                 System.out.println("Table was successfully initialized");
             }
         } catch (SQLException e) {
@@ -60,40 +63,19 @@ public class Repository {
      *
      * @return список всех созданных записей
      */
-    public List<Row> allRows() {
+    public List<DataBaseRow> findAll() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
-            List<Row> rows = new ArrayList<>();
+            List<DataBaseRow> dataBaseRows = new ArrayList<>();
             while (resultSet.next()) {
-                rows.add(new Row(resultSet.getInt("id"),
+                dataBaseRows.add(new DataBaseRow(resultSet.getInt("id"),
                         resultSet.getDate("date"),
                         resultSet.getInt("diseaseQuantity"),
                         resultSet.getInt("recoveryQuantity"),
                         resultSet.getInt("dischargedQuantity")));
             }
-            return rows;
-        } catch (Exception e) {
-            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
-        }
-        return new ArrayList<>();
-    }
-
-    /**
-     * класс, возвращающий список всех id
-     *
-     * @return List<Integer> -список всех id
-     */
-    private List<Integer> getIdList() {
-        List<Integer> list;
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
-            list = new ArrayList<>();
-            while (resultSet.next()) {
-                list.add(resultSet.getInt("id"));
-            }
-            return list;
+            return dataBaseRows;
         } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
@@ -103,30 +85,40 @@ public class Repository {
     /**
      * Метод создания записей в БД
      *
-     * @param rows распарсенные данные
+     * @param dataBaseRows распарсенные данные
      */
-    public void createNewRows(List<Row> rows) {
+    public void save(List<DataBaseRow> dataBaseRows) {
         String sqlQuery = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             //хранит список всех id в БД
-            List<Integer> idList = getIdList();
-            for (Row row : rows) {
-                //если такой записи с данным id еще нет, то добавляем
-                //т.к. при при кол-во запусков программы n>1
-                //возникает ошибка о попытке добавить запись с уже существующем id
-                if (!idList.contains(row.getId())) {
-                    statement.setString(1, row.getId().toString());
-                    statement.setString(2, row.getDate().toString());
-                    statement.setString(3, row.getDiseaseQuantity().toString());
-                    statement.setString(4, row.getRecoveryQuantity().toString());
-                    statement.setString(5, row.getDischargedQuantity().toString());
+            for (DataBaseRow dataBaseRow : dataBaseRows) {
+
+                    statement.setString(1, dataBaseRow.getId().toString());
+                    statement.setString(2, dataBaseRow.getDate().toString());
+                    statement.setString(3, dataBaseRow.getDiseaseQuantity().toString());
+                    statement.setString(4, dataBaseRow.getRecoveryQuantity().toString());
+                    statement.setString(5, dataBaseRow.getDischargedQuantity().toString());
                     statement.execute();
-                    System.out.println("1 row inserted");
-                }
+
             }
         } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
+    }
+
+    /**
+     * *
+     * Метод удаления всех записей из таблицы.
+     *
+     * */
+    public void deleteAll() {
+        String sqlQuery = "DELETE FROM " + TABLE_NAME;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            statement.execute();
+        } catch (Exception e) {
+            System.out.println("Ошибка выполнения запроса deleteAll locationMarks: " + e.getMessage());
         }
     }
 }

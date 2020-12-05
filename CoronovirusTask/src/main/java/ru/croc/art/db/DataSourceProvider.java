@@ -63,7 +63,6 @@ public class DataSourceProvider {
             dataSource.setDatabaseName(properties.get("dbName"));
             dataSource.setCreateDatabase("create");
         }
-
         return dataSource;
     }
 }

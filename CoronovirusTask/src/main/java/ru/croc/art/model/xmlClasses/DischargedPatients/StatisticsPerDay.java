@@ -1,4 +1,4 @@
-package ru.croc.art.xmlClasses;
+package ru.croc.art.model.xmlClasses.DischargedPatients;
 
 import javax.xml.bind.annotation.*;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import java.util.Objects;
  * класс Даты для конвертации из xml
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Dates {
+public class StatisticsPerDay {
     /**
      * дата
      */
@@ -25,10 +25,10 @@ public class Dates {
     private int recovery;
 
 
-    public Dates() {
+    public StatisticsPerDay() {
     }
 
-    public Dates(String date, int disease, int recovery) {
+    public StatisticsPerDay(String date, int disease, int recovery) {
         this.date = date;
         this.disease = disease;
         this.recovery = recovery;
@@ -50,10 +50,10 @@ public class Dates {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Dates dates = (Dates) o;
-        return disease == dates.disease &&
-                recovery == dates.recovery &&
-                Objects.equals(date, dates.date);
+        StatisticsPerDay statisticsPerDay = (StatisticsPerDay) o;
+        return disease == statisticsPerDay.disease &&
+                recovery == statisticsPerDay.recovery &&
+                Objects.equals(date, statisticsPerDay.date);
     }
 
     @Override
